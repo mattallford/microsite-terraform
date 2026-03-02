@@ -1,0 +1,25 @@
+# Local .terraform directory (provider cache and modules — not needed in source control)
+.terraform/
+
+# Terraform state files — state is stored remotely in Azure Blob Storage
+*.tfstate
+*.tfstate.backup
+
+# Plan output files
+*.tfplan
+
+# Local variable values — use terraform.tfvars.example as the committed template
+terraform.tfvars
+
+# Terraform CLI configuration files
+.terraformrc
+terraform.rc
+
+# Override files (used for local development overrides; not for shared config)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# .terraform.lock.hcl is intentionally NOT ignored — committing it ensures
+# the pipeline and all contributors use identical provider versions/checksums.
