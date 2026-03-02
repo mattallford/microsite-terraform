@@ -13,21 +13,6 @@ terraform {
   backend "azurerm" {}
 }
 
-# -----------------------------------------------------------------------------
-# Provider: azurerm
-#
-# Authentication is handled entirely through environment variables injected by
-# Octopus Deploy at runtime — no credentials are stored in source control:
-#
-#   ARM_CLIENT_ID       — Service principal / managed identity client ID
-#   ARM_TENANT_ID       — Azure AD tenant ID
-#   ARM_SUBSCRIPTION_ID — Target Azure subscription
-#   ARM_OIDC_TOKEN      — Short-lived OIDC token issued by Octopus Deploy
-#
-# `use_oidc = true` tells the provider to exchange the OIDC token for an
-# Azure access token rather than using a client secret. This avoids long-lived
-# credentials and is the recommended approach for CI/CD pipelines.
-# -----------------------------------------------------------------------------
 provider "azurerm" {
   features {}
   use_oidc = true

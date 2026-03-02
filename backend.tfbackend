@@ -1,18 +1,10 @@
-# ---------------------------------------------------------------------------
 # Backend configuration for Azure Blob Storage (Terraform remote state)
+# The variables in this file are replaced by the Terraform step in Octopus Deploy
+# Variable values should be stores in Octopus Deploy
 #
-# This file is passed to `terraform init` by Octopus Deploy:
-#   terraform init -backend-config=backend.tfbackend
-#
-# Octopus Deploy substitutes the #{...} placeholders with project/environment
-# variables before init runs, so no real values are ever stored in source
-# control. Map each placeholder to the appropriate Octopus variable in your
-# project's variable set.
-#
-# Authentication uses OIDC (same service principal as the provider).
+# Authentication uses OIDC
 # The SP must have the "Storage Blob Data Contributor" role on the state
 # storage account. No access keys or SAS tokens are required.
-# ---------------------------------------------------------------------------
 
 resource_group_name  = "#{TerraformBackend.ResourceGroupName}"
 storage_account_name = "#{TerraformBackend.StorageAccountName}"
@@ -23,7 +15,5 @@ container_name       = "#{TerraformBackend.ContainerName}"
 #      microsites/prod/main/terraform.tfstate
 key = "#{TerraformBackend.StateKey}"
 
-# Use Azure AD (OIDC) auth instead of a storage access key or SAS token.
-# The ARM_* environment variables injected by Octopus cover authentication.
 use_oidc         = true
 use_azuread_auth = true
