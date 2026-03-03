@@ -9,9 +9,11 @@ terraform {
 
 provider "azurerm" {
   features {}
-  use_oidc = true
+  use_oidc        = true
+  subscription_id = var.subscription_id
 }
 
+# Import the existing resource group
 data "azurerm_resource_group" "microsite" {
   name = var.resource_group_name
 }
