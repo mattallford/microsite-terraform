@@ -5,12 +5,6 @@ terraform {
       version = ">= 4.2"
     }
   }
-
-  # Remote backend — Azure Blob Storage
-  # All backend values live in backend.tfbackend, which uses #{...} Octopus
-  # Deploy placeholders. Octopus substitutes real values before running:
-  #   terraform init -backend-config=backend.tfbackend
-  backend "azurerm" {}
 }
 
 provider "azurerm" {
@@ -18,16 +12,19 @@ provider "azurerm" {
   use_oidc = true
 }
 
+data "azurerm_resource_group" "microsite" {
+  name = var.resource_group_name
+}
+
 # Create Storage Account
 resource "azurerm_storage_account" "static_site" {
   name                     = var.storage_account_name
-  resource_group_name      = var.resource_group_name
+  resource_group_name      = data.azurerm_resource_group.microsite.name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
-# Static Website Hosting
 # Enables the $web blob container and configures the default document and the
 # custom 404 page served by Azure's static website endpoint.
 resource "azurerm_storage_account_static_website" "static_site" {
